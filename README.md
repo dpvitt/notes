@@ -4,12 +4,12 @@
 ### Prerequisities:
 
 Installation of *virtualenv* utility.
-- Run `virtualenv --version` to check if this utility is installed.
+- Run `virtualenv --version` to check if this utility is installed
 - Install *virtualenv* using *easy_install*: `sudo easy_install virtualenv` (Mac OS X)
 
 ### Installation:
 
-1. Run `virtualenv venv` to create the virtual environment.
+1. Run `virtualenv venv` to create the virtual environment
 2. Run `source venv/bin/activate` to activate the virtual environment
 3. Run `pip install -r requirements.txt` to install dependencies with pip
 4. Run `python manage.py db migrate` to create a migration script for your database
@@ -17,9 +17,10 @@ Installation of *virtualenv* utility.
 
 ### Running the application:
 
-The project uses a launch script called `manage.py`.
+The project uses a launch script called `manage.py`, when returning to the project you will need to restart your virtual environment.
 
+- Run `source venv/bin/activate` to reactivate the virtual environment
 - Run the application: `python manage.py runserver`
 - Run unit tests: `python manage.py test`
-- Run shell commands: `python manage.py shell`
-- Run db migration commands: `python manage.py db`
+
+To deactivate the *virtualenv*, run `deactivate`.
