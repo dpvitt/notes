@@ -1,5 +1,5 @@
 import unittest
-from flask import current_app, url_for
+from flask import url_for
 from app import create_app
 
 class MainRouteTestCase(unittest.TestCase):
@@ -13,5 +13,5 @@ class MainRouteTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_main_route(self):
-        reponse = self.client.get(url_for('main_route.index'))
-        self.assertTrue('hi' in reponse.get_data(as_text=True))
+        response = self.client.get(url_for('main_route.index'))
+        self.assertTrue('hi' in response.get_data(as_text=True))
