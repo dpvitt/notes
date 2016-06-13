@@ -32,6 +32,10 @@ note_body = {
     'body': 'this is an example note'
 }
 
+note_updated_body = {
+    'body': 'this is an updated note'
+}
+
 note_empty = {
     'body': ''
 }

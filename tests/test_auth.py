@@ -24,10 +24,14 @@ class AuthTestCase(unittest.TestCase):
         self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
         self.client.post(url_for('auth_route.login'), data=test_mocks.login_valid_user)
 
+    @staticmethod
+    def registerUser(self, mock):
+        return self.client.post(url_for('auth_route.register'), data=mock)
+
     ##### Register Cases #####
 
     def test_auth_can_register(self):
-        response = self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
+        response = AuthTestCase.registerUser(self, test_mocks.register_valid_user)
         self.assertTrue(response.status_code == 302)
         self.assertTrue(User.query.filter(User.username == 'wiley'))
 
@@ -37,8 +41,8 @@ class AuthTestCase(unittest.TestCase):
         self.assertTrue(len(User.query.all()) == 0)
 
     def test_auth_duplicate_registration(self):
-        self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
-        response = self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
+        AuthTestCase.registerUser(self, test_mocks.register_valid_user)
+        response = AuthTestCase.registerUser(self, test_mocks.register_valid_user)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(len(User.query.all()) == 1)
         self.assertTrue('Email already registered' in response.get_data(as_text=True))
@@ -47,7 +51,7 @@ class AuthTestCase(unittest.TestCase):
     ##### Login Cases #####
 
     def test_auth_can_login(self):
-        self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
+        AuthTestCase.registerUser(self, test_mocks.register_valid_user)
         response = self.client.post(url_for('auth_route.login'), data=test_mocks.login_valid_user)
         self.assertTrue(response.status_code == 302)
         self.assertTrue('/notes' in response.get_data(as_text=True))
