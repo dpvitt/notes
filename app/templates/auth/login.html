@@ -1,0 +1,25 @@
+
+{% extends 'base.html' %}
+
+{% block body %}
+
+<form method="POST">
+  {{ login.hidden_tag() }}
+
+  {% for message in login.username.errors %}
+    {{ message }}
+  {% endfor %}
+  {{ login.username.label }} {{ login.username(class='input') }}
+
+  {% for message in login.password.errors %}
+    {{ message }}
+  {% endfor %}
+  {{ login.password.label }} {{ login.password(class='input') }}
+
+  {{ login.remember_me }} {{ login.remember_me.label }}
+  {{ login.submit() }}
+</form>
+
+<p>New user? <a href="{{ url_for('auth_route.register') }}">Click here to register</a></p>
+
+{% endblock %}

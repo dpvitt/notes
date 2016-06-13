@@ -1,0 +1,36 @@
+
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% include 'components/login-menu.html' %}
+
+<form method="POST">
+  {{ register.hidden_tag() }}
+
+  {% for message in register.email.errors %}
+    {{ message }}
+  {% endfor %}
+  {{ register.email.label }} {{ register.email(class='input') }}
+
+  {% for message in register.username.errors %}
+    {{ message }}
+  {% endfor %}
+  {{ register.username.label }} {{ register.username(class='input') }}
+
+  {% for message in register.password.errors %}
+    {{ message }}
+  {% endfor %}
+  {{ register.password.label }} {{ register.password(class='input') }}
+
+  {% for message in register.password2.errors %}
+    {{ message }}
+  {% endfor %}
+  {{ register.password2.label }} {{ register.password2(class='input') }}
+
+  {{ register.submit() }}
+</form>
+
+<p>New user? <a href="{{ url_for('auth_route.register') }}">Click here to register</a></p>
+
+{% endblock %}

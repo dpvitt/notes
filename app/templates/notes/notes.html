@@ -1,0 +1,39 @@
+
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% include 'components/login-menu.html' %}
+
+<h1>{{current_user.username}}'s notes</h1>
+
+<form method="POST">
+  {{ noteForm.hidden_tag() }}
+
+  {% for message in noteForm.body.errors %}
+    {{ message }}
+  {% endfor %}
+  {{ noteForm.body.label }} {{ noteForm.body(class='input') }}
+
+  {{ noteForm.submit() }}
+</form>
+
+<ul>
+  {% for note in notes %}
+  <li>
+    <a href="{{ url_for('notes_route.edit_note', id=note.id) }}">
+      Edit
+    </a>
+    <a href="{{ url_for('notes_route.delete_note', id=note.id) }}">
+      Delete
+    </a>
+
+    <a href="{{ url_for('notes_route.note', id=note.id) }}">
+      <span>{{ note.timestamp }}</span>
+      <p>{{ note.body }}</p>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

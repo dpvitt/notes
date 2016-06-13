@@ -1,0 +1,13 @@
+
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% include 'components/login-menu.html' %}
+
+<a href="{{ url_for('notes_route.notes') }}">Back to notes</a>
+
+<span>{{ note.timestamp }}</span>
+<p>{{ note.body }}</p>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% include 'components/login-menu.html' %}
+
+<form method="POST">
+  {{ noteForm.hidden_tag() }}
+
+  {% for message in noteForm.body.errors %}
+    {{ message }}
+  {% endfor %}
+  {{ noteForm.body.label }} {{ noteForm.body(class='input') }}
+
+  {{ noteForm.submit() }}
+</form>
+
+
+{% endblock %}

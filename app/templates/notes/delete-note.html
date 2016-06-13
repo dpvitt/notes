@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% include 'components/login-menu.html' %}
+
+<form method="POST">
+  {{ deleteNote.hidden_tag() }}
+  {{ deleteNote.submit() }}
+</form>
+
+
+{% endblock %}
