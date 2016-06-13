@@ -36,6 +36,8 @@ class AuthTestCase(unittest.TestCase):
         response = self.client.post(url_for('auth_route.register'), data=test_auth_mocks.register_valid_user)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(len(User.query.all()) == 1)
+        self.assertTrue('Email already registered' in response.get_data(as_text=True))
+        self.assertTrue('Username already in use' in response.get_data(as_text=True))
 
     ##### Login Cases #####
 
