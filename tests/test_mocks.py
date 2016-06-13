@@ -27,3 +27,11 @@ login_empty_user = {
     'username': '',
     'password': 'frog'
 }
+
+note_body = {
+    'body': 'this is an example note'
+}
+
+note_empty = {
+    'body': ''
+}

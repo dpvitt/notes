@@ -19,6 +19,11 @@ class AuthTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
+    @staticmethod
+    def signInUser(self):
+        self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
+        self.client.post(url_for('auth_route.login'), data=test_mocks.login_valid_user)
+
     ##### Register Cases #####
 
     def test_auth_can_register(self):
@@ -32,7 +37,7 @@ class AuthTestCase(unittest.TestCase):
         self.assertTrue(len(User.query.all()) == 0)
 
     def test_auth_duplicate_registration(self):
-        response = self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
+        self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
         response = self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(len(User.query.all()) == 1)
@@ -60,8 +65,7 @@ class AuthTestCase(unittest.TestCase):
     ##### Logout Cases #####
 
     def test_auth_can_logout(self):
-        self.client.post(url_for('auth_route.register'), data=test_mocks.register_valid_user)
-        self.client.post(url_for('auth_route.login'), data=test_mocks.login_valid_user)
+        AuthTestCase.signInUser(self)
         response = self.client.get(url_for('auth_route.logout'))
         self.assertTrue(response.status_code == 302)
         self.assertTrue('/login' in response.get_data(as_text=True))
