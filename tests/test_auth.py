@@ -1,21 +1,7 @@
-import unittest
+import unittest, test_auth_mocks
 from flask import url_for
 from app import create_app, db
 from app.models import User
-
-valid_user = {
-    'email': 'wiley@example.com',
-    'username': 'wiley',
-    'password': 'cat',
-    'password2': 'cat'
-}
-
-invalid_user = {
-    'email': 'skepta@example.com',
-    'username': 'skepta',
-    'password': 'cat',
-    'password2': 'dog'
-}
 
 class AuthTestCase(unittest.TestCase):
 
@@ -33,20 +19,38 @@ class AuthTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    ##### Test Cases #####
+    ##### Register Cases #####
 
     def test_auth_can_register(self):
-        response = self.client.post(url_for('auth_route.register'), data=valid_user)
+        response = self.client.post(url_for('auth_route.register'), data=test_auth_mocks.register_valid_user)
         self.assertTrue(response.status_code == 302)
         self.assertTrue(User.query.filter(User.username == 'wiley'))
 
     def test_auth_cannot_register(self):
-        response = self.client.post(url_for('auth_route.register'), data=invalid_user)
+        response = self.client.post(url_for('auth_route.register'), data=test_auth_mocks.register_invalid_user)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(len(User.query.all()) == 0)
 
     def test_auth_duplicate_registration(self):
-        response = self.client.post(url_for('auth_route.register'), data=valid_user)
-        response = self.client.post(url_for('auth_route.register'), data=valid_user)
+        response = self.client.post(url_for('auth_route.register'), data=test_auth_mocks.register_valid_user)
+        response = self.client.post(url_for('auth_route.register'), data=test_auth_mocks.register_valid_user)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(len(User.query.all()) == 1)
+
+    ##### Login Cases #####
+
+    def test_auth_can_login(self):
+        self.client.post(url_for('auth_route.register'), data=test_auth_mocks.register_valid_user)
+        response = self.client.post(url_for('auth_route.login'), data=test_auth_mocks.login_valid_user)
+        self.assertTrue(response.status_code == 302)
+        self.assertTrue('/notes' in response.get_data(as_text=True))
+
+    def test_auth_cannot_login(self):
+        response = self.client.post(url_for('auth_route.login'), data=test_auth_mocks.login_invalid_user)
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue('Invalid username or password' in response.get_data(as_text=True))
+
+    def test_auth_cannot_login_required(self):
+        response = self.client.post(url_for('auth_route.login'), data=test_auth_mocks.login_empty_user)
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue('This field is required' in response.get_data(as_text=True))
