@@ -8,12 +8,16 @@
 <form method="POST">
   {{ noteForm.hidden_tag() }}
 
-  {% for message in noteForm.body.errors %}
-    {{ message }}
-  {% endfor %}
-  {{ noteForm.body.label }} {{ noteForm.body(class='input') }}
+  <div class="field">
+    {% for message in noteForm.body.errors %}
+    <p class="field-error">{{ message }}</p>
+    {% endfor %}
+    {{ noteForm.body.label }} {{ noteForm.body(class='input') }}
+    </p>
+  </div>
 
-  {{ noteForm.submit() }}
+{{ noteForm.submit() }}
+
 </form>
 
 

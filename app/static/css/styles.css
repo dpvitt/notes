@@ -1,4 +1,121 @@
 
+body {
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.col {
+  float: left;
+  padding: 0 40px 0 0;
+}
+
+.field {
+  overflow: hidden;
+  padding: 10px 0;
+}
+
+.field-error {
+  display: block;
+  background: #f92e5b;
+  color: #fff;
+  padding: 10px;
+  margin: 0 0 20px 0;
+}
+
+label,
 .input {
+  float: left;
   height: 20px;
+  min-width: 100px;
+}
+
+label {
+  padding: 10px 10px 10px 0;
+}
+
+.input {
+  background: #fff;
+  padding: 10px;
+  border: 2px solid #eee;
+}
+
+textarea {
+  display: block;
+  clear: left;
+  width: 400px;
+  min-height: 100px;
+  max-height: 250px;
+  resize: vertical;
+}
+
+input[type="submit"],
+.button {
+  padding: 15px;
+  background: #eee;
+  border: 0;
+  margin: 10px 0;
+  font-family: Times, serif;
+  font-size: 16px;
+}
+
+.login-menu {
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding: 0 0 20px 0;
+  border-bottom: 5px solid #fdf3ee;
+}
+
+.notification {
+  background: #f6eed3;
+  padding: 20px;
+}
+
+.notes {
+  min-width: 400px;
+}
+
+.notes a {
+  text-decoration: none;
+  color: #000;
+}
+
+.option,
+.login-menu a,
+.options a {
+  text-decoration: none;
+  color: #109f67;
+}
+
+.options {
+  padding: 0;
+  margin: 0;
+  float: left;
+}
+
+.options a {
+  padding: 0 8px 0 0;
+}
+
+.note {
+  background: #fdf3ee;
+  padding: 20px 20px 10px 20px;
+  margin-bottom: 20px;
+}
+
+.date {
+  float: right;
+  margin: 0;
+}
+
+.note-body {
+  overflow: hidden;
+  display: block;
+  width: 100%;
 }

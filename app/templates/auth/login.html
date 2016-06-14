@@ -6,18 +6,23 @@
 <form method="POST">
   {{ login.hidden_tag() }}
 
-  {% for message in login.username.errors %}
-    {{ message }}
-  {% endfor %}
-  {{ login.username.label }} {{ login.username(class='input') }}
+  <div class="field">
+    {% for message in login.username.errors %}
+    <p class="field-error">{{ message }}</p>
+    {% endfor %}
+    {{ login.username.label }}
+    {{ login.username(class='input') }}
+  </div>
 
-  {% for message in login.password.errors %}
-    {{ message }}
-  {% endfor %}
-  {{ login.password.label }} {{ login.password(class='input') }}
+  <div class="field">
+    {% for message in login.password.errors %}
+    <p class="field-error">{{ message }}</p>
+    {% endfor %}
+    {{ login.password.label }}
+    {{ login.password(class='input') }}
+  </div>
 
-  {{ login.remember_me }} {{ login.remember_me.label }}
-  {{ login.submit() }}
+{{ login.submit() }}
 </form>
 
 <p>New user? <a href="{{ url_for('auth_route.register') }}">Click here to register</a></p>

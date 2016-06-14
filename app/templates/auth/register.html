@@ -8,27 +8,39 @@
 <form method="POST">
   {{ register.hidden_tag() }}
 
-  {% for message in register.email.errors %}
-    {{ message }}
-  {% endfor %}
-  {{ register.email.label }} {{ register.email(class='input') }}
+  <div class="field">
+    {% for message in register.email.errors %}
+    <p class="field-error">{{ message }}</p><p class="field-error">{{ message }}</p>
+    {% endfor %}
+    {{ register.email.label }}
+    {{ register.email(class='input') }}
+  </div>
 
-  {% for message in register.username.errors %}
-    {{ message }}
-  {% endfor %}
-  {{ register.username.label }} {{ register.username(class='input') }}
+  <div class="field">
+    {% for message in register.username.errors %}
+    <p class="field-error">{{ message }}</p>
+    {% endfor %}
+    {{ register.username.label }}
+    {{ register.username(class='input') }}
+  </div>
 
-  {% for message in register.password.errors %}
-    {{ message }}
-  {% endfor %}
-  {{ register.password.label }} {{ register.password(class='input') }}
+  <div class="field">
+    {% for message in register.password.errors %}
+    <p class="field-error">{{ message }}</p>
+    {% endfor %}
+    {{ register.password.label }}
+    {{ register.password(class='input') }}
+  </div>
 
-  {% for message in register.password2.errors %}
-    {{ message }}
-  {% endfor %}
-  {{ register.password2.label }} {{ register.password2(class='input') }}
+  <div class="field">
+    {% for message in register.password2.errors %}
+    <p class="field-error">{{ message }}</p>
+    {% endfor %}
+    {{ register.password2.label }}
+    {{ register.password2(class='input') }}
+  </div>
 
-  {{ register.submit() }}
+{{ register.submit() }}
 </form>
 
 <p>New user? <a href="{{ url_for('auth_route.register') }}">Click here to register</a></p>

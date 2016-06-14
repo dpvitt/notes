@@ -5,9 +5,11 @@
 
 {% include 'components/login-menu.html' %}
 
-<a href="{{ url_for('notes_route.notes') }}">Back to notes</a>
+{% if (current_user.is_authenticated) %}
+<a class="option" href="{{ url_for('notes_route.notes') }}">Back to notes</a>
+{% endif %}
 
-<span>{{ note.timestamp }}</span>
+<p>{{ note.timestamp }}</p>
 <p>{{ note.body }}</p>
 
 {% endblock %}

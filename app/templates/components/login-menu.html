@@ -1,8 +1,8 @@
 
-<ul>
+<ul class="login-menu">
   {% if (current_user.is_authenticated) %}
-  <li><a href="{{ url_for('auth_route.logout') }}">logout</a></li>
+  <li><a href="{{ url_for('auth_route.logout') }}">Logout</a></li>
   {% else %}
-  <li><a href="{{ url_for('auth_route.login') }}">login</a></li>
+  <li><a href="{{ url_for('auth_route.login') }}">Login</a></li>
   {% endif %}
 </ul>

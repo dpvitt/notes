@@ -7,33 +7,38 @@
 
 <h1>{{current_user.username}}'s notes</h1>
 
-<form method="POST">
-  {{ noteForm.hidden_tag() }}
+<div class="col">
+  <form method="POST">
+    {{ noteForm.hidden_tag() }}
 
-  {% for message in noteForm.body.errors %}
-    {{ message }}
-  {% endfor %}
-  {{ noteForm.body.label }} {{ noteForm.body(class='input') }}
+    <div class="field">
+      {% for message in noteForm.body.errors %}
+      <p class="error">{{ message }}</p>
+      {% endfor %}
+      {{ noteForm.body.label }}
+      {{ noteForm.body(class='input') }}
+    </div>
 
-  {{ noteForm.submit() }}
-</form>
+    {{ noteForm.submit() }}
+  </form>
+</div>
 
-<ul>
-  {% for note in notes %}
-  <li>
-    <a href="{{ url_for('notes_route.edit_note', id=note.id) }}">
-      Edit
-    </a>
-    <a href="{{ url_for('notes_route.delete_note', id=note.id) }}">
-      Delete
-    </a>
+<div class="col">
+  <div class="notes">
+    {% for note in notes %}
+    <article class="note">
+      <ul class="options">
+        <a class="option" href="{{ url_for('notes_route.edit_note', id=note.id) }}">edit</a>
+        <a class="option" href="{{ url_for('notes_route.delete_note', id=note.id) }}">delete</a>
+      </ul>
+      <p class="date">{{ note.timestamp }}</p>
 
-    <a href="{{ url_for('notes_route.note', id=note.id) }}">
-      <span>{{ note.timestamp }}</span>
-      <p>{{ note.body }}</p>
-    </a>
-  </li>
-  {% endfor %}
-</ul>
+      <a href="{{ url_for('notes_route.note', id=note.id) }}" class="note-body">
+        <p>{{ note.body }}</p>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+</div>
 
 {% endblock %}
