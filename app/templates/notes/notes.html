@@ -44,16 +44,20 @@
   <div class="notes">
     {% for note in notes %}
     <article class="note">
-      <ul class="options">
+      <div class="options">
         <a class="option" href="{{ url_for('notes_route.edit_note', id=note.id) }}">edit</a>
-        <a class="option" href="{{ url_for('notes_route.delete_note', id=note.id) }}">delete</a>
-      </ul>
+      </div>
       <p class="date">{{ note.timestamp }}</p>
       <p class="date">{{ note.tag.tag }}</p>
 
       <a href="{{ url_for('notes_route.note', id=note.id) }}" class="note-body">
         <p>{{ note.body }}</p>
       </a>
+
+      <form id="delete-form-{{note.id}}" class="delete-form" method="POST" action="{{ url_for('notes_route.delete_note', id=note.id) }}">
+        {{ deleteNote.hidden_tag() }}
+        {{ deleteNote.submit() }}
+      </form>
     </article>
     {% endfor %}
   </div>
