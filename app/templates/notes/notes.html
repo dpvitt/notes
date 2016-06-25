@@ -8,7 +8,7 @@
 <h1>{{current_user.username}}'s notes</h1>
 
 <div class="col">
-  <form method="POST">
+  <form method="POST" name="note" action="{{ url_for('notes_route.add_note') }}">
     {{ noteForm.hidden_tag() }}
 
     <div class="field">
@@ -19,7 +19,24 @@
       {{ noteForm.body(class='input') }}
     </div>
 
-    {{ noteForm.submit() }}
+    {{ noteForm.tag.label }}
+    {{ noteForm.tag(class='input') }}
+
+    {{ noteForm.submitNote() }}
+  </form>
+
+  <form method="POST" name="tag" action="{{ url_for('notes_route.add_tag') }}">
+    {{ tagForm.hidden_tag() }}
+
+    <div class="field">
+      {% for message in tagForm.tag.errors %}
+      <p class="error">{{ message }}</p>
+      {% endfor %}
+      {{ tagForm.tag.label }}
+      {{ tagForm.tag(class='input') }}
+    </div>
+
+    {{ tagForm.submitTag() }}
   </form>
 </div>
 
@@ -32,6 +49,7 @@
         <a class="option" href="{{ url_for('notes_route.delete_note', id=note.id) }}">delete</a>
       </ul>
       <p class="date">{{ note.timestamp }}</p>
+      <p class="date">{{ note.tag.tag }}</p>
 
       <a href="{{ url_for('notes_route.note', id=note.id) }}" class="note-body">
         <p>{{ note.body }}</p>

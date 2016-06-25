@@ -13,7 +13,9 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    notes = db.relationship('Note', backref='author', lazy='dynamic')
+
+    notes = db.relationship('Note', backref='user', lazy='dynamic')
+    tags = db.relationship('Tag', backref='user', lazy='dynamic')
 
     @property
     def password(self):
@@ -34,4 +36,16 @@ class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    tag = db.Column(db.String(128))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    notes = db.relationship('Note', backref='tag', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Tag %r>' % self.tag

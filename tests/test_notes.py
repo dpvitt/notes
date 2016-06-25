@@ -33,21 +33,16 @@ class NoteTestCase(unittest.TestCase):
 
     def test_notes_can_add_note(self):
         AuthTestCase.signInUser(self)
-        response = self.client.post(url_for('notes_route.notes'), data=test_mocks.note_body)
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue('this is an example note' in response.get_data(as_text=True))
-
-    def test_notes_cannot_add_note(self):
-        AuthTestCase.signInUser(self)
-        response = self.client.post(url_for('notes_route.notes'), data=test_mocks.note_empty)
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue('This field is required.' in response.get_data(as_text=True))
+        response = self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
+        self.assertTrue(response.status_code == 302)
+        notes = self.client.get(url_for('notes_route.notes'))
+        self.assertTrue('this is an example note' in notes.get_data(as_text=True))
 
     ##### Note Cases #####
 
     def test_notes_view_note(self):
         AuthTestCase.signInUser(self)
-        self.client.post(url_for('notes_route.notes'), data=test_mocks.note_body)
+        self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
         response = self.client.get(url_for('notes_route.note', id=1))
         self.assertTrue(response.status_code == 200)
         self.assertTrue('<p>this is an example note</p>' in response.get_data(as_text=True))
@@ -56,14 +51,14 @@ class NoteTestCase(unittest.TestCase):
 
     def test_notes_edit_note_content(self):
         AuthTestCase.signInUser(self)
-        self.client.post(url_for('notes_route.notes'), data=test_mocks.note_body)
+        self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
         response = self.client.get(url_for('notes_route.edit_note', id=1))
         self.assertTrue(response.status_code == 200)
         self.assertTrue('this is an example note</textarea>' in response.get_data(as_text=True))
 
     def test_notes_edit_note_post(self):
         AuthTestCase.signInUser(self)
-        self.client.post(url_for('notes_route.notes'), data=test_mocks.note_body)
+        self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
         edit = self.client.post(url_for('notes_route.edit_note', id=1), data=test_mocks.note_updated_body)
         self.assertTrue(edit.status_code == 302)
         response = self.client.get(url_for('notes_route.note', id=1))
@@ -71,7 +66,7 @@ class NoteTestCase(unittest.TestCase):
 
     def test_notes_delete_note(self):
         AuthTestCase.signInUser(self)
-        self.client.post(url_for('notes_route.notes'), data=test_mocks.note_body)
+        self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
         delete = self.client.post(url_for('notes_route.delete_note', id=1))
         self.assertTrue(delete.status_code == 302)
         response = self.client.get(url_for('notes_route.note', id=1))

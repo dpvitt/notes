@@ -29,7 +29,8 @@ login_empty_user = {
 }
 
 note_body = {
-    'body': 'this is an example note'
+    'body': 'this is an example note',
+    'tag': 'test tag'
 }
 
 note_updated_body = {
