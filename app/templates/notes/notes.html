@@ -48,7 +48,9 @@
         <a class="option" href="{{ url_for('notes_route.edit_note', id=note.id) }}">edit</a>
       </div>
       <p class="date">{{ note.timestamp }}</p>
-      <p class="date">{{ note.tag.tag }}</p>
+      <p class="date">
+        <a class="option" href="{{ url_for('notes_route.notes_by_tag', id=note.tag_id) }}">{{ note.tag.tag }}</a>
+      </p>
 
       <a href="{{ url_for('notes_route.note', id=note.id) }}" class="note-body">
         <p>{{ note.body }}</p>

@@ -13,11 +13,17 @@ def user_logged_in(current_user, note):
 @login_required
 def notes():
     noteForm = NoteForm()
-    tagForm = TagForm()
-    deleteNote = DeleteNote()
     noteForm.tag.choices = [(t.id, t.tag) for t in Tag.query.filter(Tag.user_id == current_user.id)]
     notes = Note.query.order_by(Note.timestamp.desc()).filter(Note.user_id == current_user.id)
-    return render_template('notes/notes.html', noteForm=noteForm, tagForm=tagForm, deleteNote=deleteNote, notes=notes)
+    return render_template('notes/notes.html', noteForm=noteForm, tagForm=TagForm(), deleteNote=DeleteNote(), notes=notes)
+
+@notes_route.route('/notes/tag/<int:id>')
+@login_required
+def notes_by_tag(id):
+    noteForm = NoteForm()
+    noteForm.tag.choices = [(t.id, t.tag) for t in Tag.query.filter(Tag.user_id == current_user.id)]
+    notes = Note.query.order_by(Note.timestamp.desc()).filter(Note.tag_id == id)
+    return render_template('notes/notes.html', noteForm=noteForm, tagForm=TagForm(), deleteNote=DeleteNote(), notes=notes)
 
 @notes_route.route('/add-note/', methods=['POST'])
 def add_note():

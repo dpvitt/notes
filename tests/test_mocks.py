@@ -30,13 +30,13 @@ login_empty_user = {
 
 note_body = {
     'body': 'this is an example note',
-    'tag': 'test tag'
+    'tag': '1'
 }
 
 note_updated_body = {
     'body': 'this is an updated note'
 }
 
-note_empty = {
-    'body': ''
+tag_body = {
+    'tag': 'cheese'
 }

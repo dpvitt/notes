@@ -31,6 +31,7 @@ class NoteTestCase(unittest.TestCase):
 
     def test_notes_can_add_note(self):
         AuthTestCase.signInUser(self)
+        self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)
         response = self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
         self.assertTrue(response.status_code == 302)
         notes = self.client.get(url_for('notes_route.notes'))
