@@ -5,6 +5,10 @@
 
 {% include 'components/login-menu.html' %}
 
+<a class="option" href="{{ url_for('notes_route.notes') }}">Back to notes</a>
+<a class="option" href="{{ url_for('notes_route.note', id=note.id) }}">View note</a>
+<a class="option" href="{{ url_for('notes_route.notes_by_tag', id=note.tag_id) }}">{{note.tag.tag}}</a>
+
 <form method="POST">
   {{ noteForm.hidden_tag() }}
 

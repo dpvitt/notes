@@ -6,12 +6,14 @@
 - [ ] Can I remove the dependency on *easy_install* and use *pip* for everything?
 
 ### Todos:
-- [ ] Note filtering (week, month, tag)
+- [ ] Note filtering (week, month)
 - [ ] Enable public view option for a note
 - [ ] Refactor error handling to one page with inputs
 - [ ] Improve UI, introduce SASS
 - [ ] Enhance delete note with JavaScript
 - [ ] Add images to notes
+- [ ] Add emoji to notes
 
 ### Complete Todos:
 - [x] Introduce tags model
+- [x] Note filtering (tag)

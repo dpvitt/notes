@@ -56,6 +56,7 @@ class NoteTestCase(unittest.TestCase):
 
     def test_notes_view_note(self):
         AuthTestCase.signInUser(self)
+        self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)
         self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
         response = self.client.get(url_for('notes_route.note', id=1))
         self.assertTrue(response.status_code == 200)
@@ -63,6 +64,7 @@ class NoteTestCase(unittest.TestCase):
 
     def test_notes_edit_note_content(self):
         AuthTestCase.signInUser(self)
+        self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)
         self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
         response = self.client.get(url_for('notes_route.edit_note', id=1))
         self.assertTrue(response.status_code == 200)
@@ -70,6 +72,7 @@ class NoteTestCase(unittest.TestCase):
 
     def test_notes_edit_note_post(self):
         AuthTestCase.signInUser(self)
+        self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)
         self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
         edit = self.client.post(url_for('notes_route.edit_note', id=1), data=test_mocks.note_updated_body)
         self.assertTrue(edit.status_code == 302)

@@ -61,7 +61,7 @@ def edit_note(id):
         flash('Note updated')
         return redirect(url_for('notes_route.note', id=note.id))
     noteForm.body.data = note.body
-    return render_template('notes/edit-note.html', noteForm=noteForm)
+    return render_template('notes/edit-note.html', noteForm=noteForm, note=note)
 
 @notes_route.route('/delete-note/<int:id>', methods=['GET', 'POST'])
 @login_required
