@@ -29,8 +29,6 @@ class NoteTestCase(unittest.TestCase):
         self.assertTrue("wiley's notes" in response.get_data(as_text=True))
         self.assertTrue('name="body"' in response.get_data(as_text=True))
 
-    ##### Add Note Cases #####
-
     def test_notes_can_add_note(self):
         AuthTestCase.signInUser(self)
         response = self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
@@ -38,7 +36,12 @@ class NoteTestCase(unittest.TestCase):
         notes = self.client.get(url_for('notes_route.notes'))
         self.assertTrue('this is an example note' in notes.get_data(as_text=True))
 
-    ##### Note Cases #####
+    def test_notes_can_add_tag(self):
+        AuthTestCase.signInUser(self)
+        response = self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)
+        self.assertTrue(response.status_code == 302)
+        notes = self.client.get(url_for('notes_route.notes'))
+        self.assertTrue('cheese' in notes.get_data(as_text=True))
 
     def test_notes_view_note(self):
         AuthTestCase.signInUser(self)
@@ -46,8 +49,6 @@ class NoteTestCase(unittest.TestCase):
         response = self.client.get(url_for('notes_route.note', id=1))
         self.assertTrue(response.status_code == 200)
         self.assertTrue('<p>this is an example note</p>' in response.get_data(as_text=True))
-
-    ##### Edit Note Cases #####
 
     def test_notes_edit_note_content(self):
         AuthTestCase.signInUser(self)
