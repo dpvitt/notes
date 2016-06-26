@@ -29,6 +29,16 @@ class NoteTestCase(unittest.TestCase):
         self.assertTrue("wiley's notes" in response.get_data(as_text=True))
         self.assertTrue('name="body"' in response.get_data(as_text=True))
 
+    def test_notes_view_by_tag(self):
+        AuthTestCase.signInUser(self)
+        self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)
+        self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body_2)
+        self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
+        self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body_2)
+        notes = self.client.get(url_for('notes_route.notes_by_tag', id=1))
+        self.assertTrue('this is an example note' in notes.get_data(as_text=True))
+        self.assertFalse('another note' in notes.get_data(as_text=True))
+
     def test_notes_can_add_note(self):
         AuthTestCase.signInUser(self)
         self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)

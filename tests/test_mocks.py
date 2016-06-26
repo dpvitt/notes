@@ -33,10 +33,19 @@ note_body = {
     'tag': '1'
 }
 
+note_body_2 = {
+    'body': 'another note',
+    'tag': '2'
+}
+
 note_updated_body = {
     'body': 'this is an updated note'
 }
 
 tag_body = {
     'tag': 'cheese'
+}
+
+tag_body_2 = {
+    'tag': 'ham'
 }
