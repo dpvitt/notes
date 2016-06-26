@@ -38,6 +38,7 @@ class Note(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
+    public = db.Column(db.Boolean)
 
 class Tag(db.Model):
     __tablename__ = 'tags'

@@ -7,7 +7,6 @@
 
 ### Todos:
 - [ ] Note filtering (week, month)
-- [ ] Enable public view option for a note
 - [ ] Refactor error handling to one page with inputs
 - [ ] Improve UI, introduce SASS
 - [ ] Enhance delete note with JavaScript
@@ -17,3 +16,4 @@
 ### Complete Todos:
 - [x] Introduce tags model
 - [x] Note filtering (tag)
+- [x] Enable public view option for a note

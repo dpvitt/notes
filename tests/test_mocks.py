@@ -38,6 +38,12 @@ note_body_2 = {
     'tag': '2'
 }
 
+note_body_public = {
+    'body': 'this is an example note',
+    'tag': '1',
+    'public': 'y'
+}
+
 note_updated_body = {
     'body': 'this is an updated note'
 }

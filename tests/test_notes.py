@@ -62,6 +62,22 @@ class NoteTestCase(unittest.TestCase):
         self.assertTrue(response.status_code == 200)
         self.assertTrue('<p>this is an example note</p>' in response.get_data(as_text=True))
 
+    def test_notes_cannot_view_public_note(self):
+        AuthTestCase.signInUser(self)
+        self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)
+        self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body_public)
+        self.client.get(url_for('auth_route.logout'))
+        response = self.client.get(url_for('notes_route.note', id=1))
+        self.assertTrue(response.status_code == 200)
+
+    def test_notes_cannot_view_private_note(self):
+        AuthTestCase.signInUser(self)
+        self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)
+        self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
+        self.client.get(url_for('auth_route.logout'))
+        response = self.client.get(url_for('notes_route.note', id=1))
+        self.assertTrue(response.status_code == 403)
+
     def test_notes_edit_note_content(self):
         AuthTestCase.signInUser(self)
         self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)

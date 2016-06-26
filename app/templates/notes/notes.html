@@ -22,6 +22,9 @@
     {{ noteForm.tag.label }}
     {{ noteForm.tag(class='input') }}
 
+    {{ noteForm.public.label }}
+    {{ noteForm.public(value='y', class='input') }}
+
     {{ noteForm.submitNote() }}
   </form>
 
@@ -52,9 +55,15 @@
         <a class="option" href="{{ url_for('notes_route.notes_by_tag', id=note.tag_id) }}">{{ note.tag.tag }}</a>
       </p>
 
-      <a href="{{ url_for('notes_route.note', id=note.id) }}" class="note-body">
-        <p>{{ note.body }}</p>
+      {% if note.public %}
+      <a href="{{ url_for('notes_route.note', id=note.id) }}" class="option">
+        public url
       </a>
+      {% endif %}
+
+      <div class="note-body">
+        <p>{{ note.body }}</p>
+      </div>
 
       <form id="delete-form-{{note.id}}" class="delete-form" method="POST" action="{{ url_for('notes_route.delete_note', id=note.id) }}">
         {{ deleteNote.hidden_tag() }}

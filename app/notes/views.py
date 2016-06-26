@@ -28,9 +28,12 @@ def notes_by_tag(id):
 @notes_route.route('/add-note/', methods=['POST'])
 def add_note():
     body = request.form['body']
+    public = False
     if body:
+        if 'public' in request.form:
+            public = True
         tag = Tag.query.filter(Tag.id == request.form['tag']).first()
-        note = Note(body=body, user=current_user._get_current_object(), tag=tag)
+        note = Note(body=body, user=current_user._get_current_object(), tag=tag, public=public)
         db.session.add(note)
     return redirect(url_for('notes_route.notes'))
 
@@ -43,10 +46,10 @@ def add_tag():
     return redirect(url_for('notes_route.notes'))
 
 @notes_route.route('/note/<int:id>')
-@login_required
 def note(id):
     note = Note.query.get_or_404(id)
-    user_logged_in(current_user, note)
+    if not hasattr(current_user, 'id') and note.public == False:
+        return abort(403)
     return render_template('notes/note.html', note=note)
 
 @notes_route.route('/edit-note/<int:id>', methods=['GET', 'POST'])
