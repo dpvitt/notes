@@ -10,6 +10,13 @@ def user_logged_in(current_user, note):
     if current_user.id != note.user_id:
         return abort(403)
 
+@notes_route.context_processor
+def utility_processor():
+    def get_local_time(timestamp):
+        localtime = arrow.get(timestamp)
+        return localtime.format('D MMMM YYYY')
+    return dict(get_local_time=get_local_time)
+
 @notes_route.route('/notes')
 @login_required
 def notes():
