@@ -1,4 +1,4 @@
-import unittest, test_mocks
+import unittest, test_mocks, arrow
 from flask import url_for
 from app import create_app, db
 from app.models import Note
@@ -54,13 +54,23 @@ class NoteTestCase(unittest.TestCase):
         notes = self.client.get(url_for('notes_route.notes'))
         self.assertTrue('cheese' in notes.get_data(as_text=True))
 
-    def test_notes_view_note(self):
+    @staticmethod
+    def create_note(self):
         AuthTestCase.signInUser(self)
         self.client.post(url_for('notes_route.add_tag'), data=test_mocks.tag_body)
         self.client.post(url_for('notes_route.add_note'), data=test_mocks.note_body)
-        response = self.client.get(url_for('notes_route.note', id=1))
+        return self.client.get(url_for('notes_route.note', id=1))
+
+    def test_notes_view_note(self):
+        response = NoteTestCase.create_note(self)
         self.assertTrue(response.status_code == 200)
         self.assertTrue('<p>this is an example note</p>' in response.get_data(as_text=True))
+
+    def test_notes_view_note_local_time(self):
+        response = NoteTestCase.create_note(self)
+        currenttime = arrow.now()
+        currenttime = currenttime.format('D MMMM YYYY')
+        self.assertTrue(currenttime in response.get_data(as_text=True))
 
     def test_notes_cannot_view_public_note(self):
         AuthTestCase.signInUser(self)

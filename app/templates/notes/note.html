@@ -11,8 +11,7 @@
 <a class="option" href="{{ url_for('notes_route.notes_by_tag', id=note.tag_id) }}">{{note.tag.tag}}</a>
 {% endif %}
 
-<p>{{ note.timestamp }}</p>
+<p>{{ localtime }}</p>
 <p>{{ note.body }}</p>
-<p>{{ note.public }}</p>
 
 {% endblock %}

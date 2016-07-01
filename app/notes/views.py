@@ -1,3 +1,4 @@
+import arrow
 from flask import render_template, url_for, flash, redirect, abort, request
 from flask_login import login_required, current_user
 from . import notes_route
@@ -48,9 +49,11 @@ def add_tag():
 @notes_route.route('/note/<int:id>')
 def note(id):
     note = Note.query.get_or_404(id)
+    localtime = arrow.get(note.timestamp)
+    localtime = localtime.format('HH:mm - dddd D MMMM YYYY')
     if not hasattr(current_user, 'id') and note.public == False:
         return abort(403)
-    return render_template('notes/note.html', note=note)
+    return render_template('notes/note.html', note=note, localtime=localtime)
 
 @notes_route.route('/edit-note/<int:id>', methods=['GET', 'POST'])
 @login_required
