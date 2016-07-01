@@ -15,3 +15,8 @@ class MainRouteTestCase(unittest.TestCase):
     def test_main_route(self):
         response = self.client.get(url_for('main_route.index'))
         self.assertTrue('hi' in response.get_data(as_text=True))
+
+    def test_404_error(self):
+        response = self.client.get('/cheese')
+        self.assertTrue('page not found' in response.get_data(as_text=True))
+        self.assertTrue(response.status_code == 404)

@@ -7,7 +7,6 @@
 
 ### Todos:
 - [ ] Note filtering (week, month)
-- [ ] Refactor error handling to one page with inputs
 - [ ] Improve UI, introduce SASS
 - [ ] Enhance delete note with JavaScript
 - [ ] Add images to notes
@@ -17,3 +16,4 @@
 - [x] Introduce tags model
 - [x] Note filtering (tag)
 - [x] Enable public view option for a note
+- [x] Refactor error handling to one page with inputs

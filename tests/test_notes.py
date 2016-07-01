@@ -77,6 +77,7 @@ class NoteTestCase(unittest.TestCase):
         self.client.get(url_for('auth_route.logout'))
         response = self.client.get(url_for('notes_route.note', id=1))
         self.assertTrue(response.status_code == 403)
+        self.assertTrue('forbidden' in response.get_data(as_text=True))
 
     def test_notes_edit_note_content(self):
         AuthTestCase.signInUser(self)
