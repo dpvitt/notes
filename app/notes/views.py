@@ -1,5 +1,6 @@
 from flask import render_template, url_for, flash, redirect, abort, request
 from flask_login import login_required, current_user
+from sqlalchemy import extract
 from . import notes_route
 from .. import db
 from .forms import NoteForm, DeleteNote, TagForm, EditForm
@@ -27,7 +28,23 @@ def notes():
 def notes_by_tag(id):
     noteForm = NoteForm()
     noteForm.tag.choices = [(t.id, t.tag) for t in Tag.query.filter(Tag.user_id == current_user.id)]
-    notes = Note.query.order_by(Note.timestamp.desc()).filter(Note.tag_id == id)
+    notes = Note.query.order_by(Note.timestamp.desc()).filter(Note.tag_id == id).filter(Note.user_id == current_user.id)
+    return render_template('notes/notes.html', noteForm=noteForm, tagForm=TagForm(), deleteNote=DeleteNote(), notes=notes)
+
+@notes_route.route('/notes/year/<int:year>/month/<int:month>')
+@login_required
+def notes_by_month(year, month):
+    noteForm = NoteForm()
+    noteForm.tag.choices = [(t.id, t.tag) for t in Tag.query.filter(Tag.user_id == current_user.id)]
+    notes = Note.query.order_by(Note.timestamp.desc()).filter(extract('year', Note.timestamp) == year).filter(extract('month', Note.timestamp) == month).filter(Note.user_id == current_user.id)
+    return render_template('notes/notes.html', noteForm=noteForm, tagForm=TagForm(), deleteNote=DeleteNote(), notes=notes)
+
+@notes_route.route('/notes/year/<int:year>')
+@login_required
+def notes_by_year(year):
+    noteForm = NoteForm()
+    noteForm.tag.choices = [(t.id, t.tag) for t in Tag.query.filter(Tag.user_id == current_user.id)]
+    notes = Note.query.order_by(Note.timestamp.desc()).filter(extract('year', Note.timestamp) == year).filter(Note.user_id == current_user.id)
     return render_template('notes/notes.html', noteForm=noteForm, tagForm=TagForm(), deleteNote=DeleteNote(), notes=notes)
 
 @notes_route.route('/add-note/', methods=['POST'])

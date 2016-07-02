@@ -2,6 +2,7 @@ import unittest, test_mocks, arrow
 from flask import url_for
 from app import create_app, db
 from app.models import Note
+from app.helpers import TimeHelper
 from test_auth import AuthTestCase
 
 class NoteTestCase(unittest.TestCase):
@@ -44,6 +45,27 @@ class NoteTestCase(unittest.TestCase):
         notes = self.client.get(url_for('notes_route.notes_by_tag', id=1))
         self.assertTrue('this is an example note' in notes.get_data(as_text=True))
         self.assertFalse('another note' in notes.get_data(as_text=True))
+
+    def test_notes_view_by_month(self):
+        AuthTestCase.signInUser(self)
+        NoteTestCase.create_note(self)
+        currenttime = arrow.now()
+        year = currenttime.format('YYYY')
+        month = currenttime.format('MM')
+        wrong_month = self.client.get(url_for('notes_route.notes_by_month', year=1990, month=1))
+        right_month = self.client.get(url_for('notes_route.notes_by_month', year=year, month=month))
+        self.assertFalse('this is an example note' in wrong_month.get_data(as_text=True))
+        self.assertTrue('this is an example note' in right_month.get_data(as_text=True))
+
+    def test_notes_view_by_year(self):
+        AuthTestCase.signInUser(self)
+        NoteTestCase.create_note(self)
+        currenttime = arrow.now()
+        year = currenttime.format('YYYY')
+        wrong_year = self.client.get(url_for('notes_route.notes_by_year', year=1990))
+        right_year = self.client.get(url_for('notes_route.notes_by_year', year=year))
+        self.assertFalse('this is an example note' in wrong_year.get_data(as_text=True))
+        self.assertTrue('this is an example note' in right_year.get_data(as_text=True))
 
     def test_notes_can_add_note(self):
         AuthTestCase.signInUser(self)
