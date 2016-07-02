@@ -14,6 +14,6 @@
 
 ### Complete Todos:
 - [x] Introduce tags model
-- [x] Note filtering (tag, month, year)
+- [x] Note filtering (day, tag, month, year)
 - [x] Enable public view option for a note
 - [x] Refactor error handling to one page with inputs

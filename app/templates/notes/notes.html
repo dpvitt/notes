@@ -48,10 +48,10 @@
     {% for note in notes %}
     <article class="note">
       <div class="options">
-        <a class="option" href="{{ url_for('notes_route.edit_note', id=note.id) }}">edit</a>
+        <a class="option" href="{{ url_for('notes_route.edit_note', id=note.id) }}">Edit</a>
       </div>
       <p class="date">
-        <span>{{ get_day(note.timestamp) }}</span>
+        <a class="date-item" href="{{ url_for('notes_route.notes_by_day', day=get_day(note.timestamp), year=get_year(note.timestamp), month=get_month(note.timestamp).month_id) }}">{{ get_day(note.timestamp) }}</a>
         <a class="date-item" href="{{ url_for('notes_route.notes_by_month', year=get_year(note.timestamp), month=get_month(note.timestamp).month_id) }}">{{ get_month(note.timestamp).month }}</a>
         <a class="date-item" href="{{ url_for('notes_route.notes_by_year', year=get_year(note.timestamp)) }}">{{ get_year(note.timestamp) }}</a>
       </p>

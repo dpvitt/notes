@@ -57,6 +57,18 @@ class NoteTestCase(unittest.TestCase):
         self.assertFalse('this is an example note' in wrong_month.get_data(as_text=True))
         self.assertTrue('this is an example note' in right_month.get_data(as_text=True))
 
+    def test_notes_view_by_day(self):
+        AuthTestCase.signInUser(self)
+        NoteTestCase.create_note(self)
+        currenttime = arrow.now()
+        year = currenttime.format('YYYY')
+        month = currenttime.format('MM')
+        day = currenttime.format('DD')
+        wrong_day = self.client.get(url_for('notes_route.notes_by_day', year=1990, month=1, day=1))
+        right_day = self.client.get(url_for('notes_route.notes_by_day', year=year, month=month, day=day))
+        self.assertFalse('this is an example note' in wrong_day.get_data(as_text=True))
+        self.assertTrue('this is an example note' in right_day.get_data(as_text=True))
+
     def test_notes_view_by_year(self):
         AuthTestCase.signInUser(self)
         NoteTestCase.create_note(self)

@@ -31,7 +31,7 @@ def notes_by_tag(id):
     notes = Note.query.order_by(Note.timestamp.desc()).filter(Note.tag_id == id).filter(Note.user_id == current_user.id)
     return render_template('notes/notes.html', noteForm=noteForm, tagForm=TagForm(), deleteNote=DeleteNote(), notes=notes)
 
-@notes_route.route('/notes/year/<int:year>/month/<int:month>')
+@notes_route.route('/notes/month/<int:month>/<int:year>')
 @login_required
 def notes_by_month(year, month):
     noteForm = NoteForm()
@@ -46,6 +46,15 @@ def notes_by_year(year):
     noteForm.tag.choices = [(t.id, t.tag) for t in Tag.query.filter(Tag.user_id == current_user.id)]
     notes = Note.query.order_by(Note.timestamp.desc()).filter(extract('year', Note.timestamp) == year).filter(Note.user_id == current_user.id)
     return render_template('notes/notes.html', noteForm=noteForm, tagForm=TagForm(), deleteNote=DeleteNote(), notes=notes)
+
+@notes_route.route('/notes/day/<int:day>/<int:month>/<int:year>')
+@login_required
+def notes_by_day(day, month, year):
+    noteForm = NoteForm()
+    noteForm.tag.choices = [(t.id, t.tag) for t in Tag.query.filter(Tag.user_id == current_user.id)]
+    notes = Note.query.order_by(Note.timestamp.desc()).filter(extract('year', Note.timestamp) == year).filter(extract('month', Note.timestamp) == month).filter(extract('day', Note.timestamp) == day).filter(Note.user_id == current_user.id)
+    return render_template('notes/notes.html', noteForm=noteForm, tagForm=TagForm(), deleteNote=DeleteNote(), notes=notes)
+
 
 @notes_route.route('/add-note/', methods=['POST'])
 def add_note():
