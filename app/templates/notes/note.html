@@ -9,9 +9,12 @@
 <a class="option" href="{{ url_for('notes_route.notes') }}">Back to notes</a>
 <a class="option" href="{{ url_for('notes_route.edit_note', id=note.id) }}">Edit note</a>
 <a class="option" href="{{ url_for('notes_route.notes_by_tag', id=note.tag_id) }}">{{note.tag.tag}}</a>
+
+<a class="option" href="{{ get_month(note.timestamp).month_id }}">{{ get_month(note.timestamp).month }}</a>
+<a class="option" href="{{ get_year(note.timestamp) }}">{{ get_year(note.timestamp) }}</a>
 {% endif %}
 
-<p>{{ localtime }}</p>
+<p>{{ format_time(note.timestamp) }}</p>
 <p>{{ note.body }}</p>
 
 {% endblock %}

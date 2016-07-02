@@ -1,21 +1,18 @@
-import arrow
 from flask import render_template, url_for, flash, redirect, abort, request
 from flask_login import login_required, current_user
 from . import notes_route
 from .. import db
 from .forms import NoteForm, DeleteNote, TagForm, EditForm
+from ..helpers import TimeHelper
 from ..models import Note, Tag
+
+@notes_route.context_processor
+def utility_processor():
+    return dict(format_time=TimeHelper.format_time, get_day=TimeHelper.get_day, get_month=TimeHelper.get_month, get_year=TimeHelper.get_year)
 
 def user_logged_in(current_user, note):
     if current_user.id != note.user_id:
         return abort(403)
-
-@notes_route.context_processor
-def utility_processor():
-    def get_local_time(timestamp):
-        localtime = arrow.get(timestamp)
-        return localtime.format('D MMMM YYYY')
-    return dict(get_local_time=get_local_time)
 
 @notes_route.route('/notes')
 @login_required
@@ -56,11 +53,9 @@ def add_tag():
 @notes_route.route('/note/<int:id>')
 def note(id):
     note = Note.query.get_or_404(id)
-    localtime = arrow.get(note.timestamp)
-    localtime = localtime.format('HH:mm - dddd D MMMM YYYY')
     if not hasattr(current_user, 'id') and note.public == False:
         return abort(403)
-    return render_template('notes/note.html', note=note, localtime=localtime)
+    return render_template('notes/note.html', note=note)
 
 @notes_route.route('/edit-note/<int:id>', methods=['GET', 'POST'])
 @login_required

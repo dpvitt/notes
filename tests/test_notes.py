@@ -36,14 +36,6 @@ class NoteTestCase(unittest.TestCase):
         self.assertTrue("wiley's notes" in response.get_data(as_text=True))
         self.assertTrue('name="body"' in response.get_data(as_text=True))
 
-    def test_notes_view_notes_with_local_time(self):
-        AuthTestCase.signInUser(self)
-        NoteTestCase.create_note(self)
-        response = self.client.get(url_for('notes_route.notes'))
-        currenttime = arrow.now()
-        currenttime = currenttime.format('D MMMM YYYY')
-        self.assertTrue(currenttime in response.get_data(as_text=True))
-
     def test_notes_view_by_tag(self):
         AuthTestCase.signInUser(self)
         NoteTestCase.create_note(self)

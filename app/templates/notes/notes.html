@@ -50,7 +50,11 @@
       <div class="options">
         <a class="option" href="{{ url_for('notes_route.edit_note', id=note.id) }}">edit</a>
       </div>
-      <p class="date">{{ get_local_time(note.timestamp) }}</p>
+      <p class="date">
+        <span>{{ get_day(note.timestamp) }}</span>
+        <a class="date-item" href="{{ get_month(note.timestamp).month_id }}">{{ get_month(note.timestamp).month }}</a>
+        <a class="date-item" href="{{ get_year(note.timestamp) }}">{{ get_year(note.timestamp) }}</a>
+      </p>
       <p class="date">
         <a class="option" href="{{ url_for('notes_route.notes_by_tag', id=note.tag_id) }}">{{ note.tag.tag }}</a>
       </p>

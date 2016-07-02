@@ -112,6 +112,10 @@ input[type="submit"],
   margin: 0;
 }
 
+.date-item {
+  color: #b01a4b;
+}
+
 .note-body {
   overflow: hidden;
   display: block;
